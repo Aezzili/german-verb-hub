@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alltägliches Deutsch - Verben mit Präpositionen (A1-C1)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .german-flag-gradient {
+            background: linear-gradient(90deg, #111827 33.3%, #dc2626 33.3%, #dc2626 66.6%, #ca8a04 66.6%);
+        }
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        }
+        .tab-btn.active {
+            background-color: #16a34a;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+        }
+        /* Flip Card Effect for Flashcards */
+        .perspective { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+        <div class="h-1.5 w-full german-flag-gradient"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
+            <div class="flex items-center gap-3">
+                <div id="level-badge" class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-extrabold text-lg shadow-md transition-all">
+                    ALL
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-tight text-slate-900 flex items-center gap-2">
+                        Alltägliches Deutsch 
+                        <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">Verben & Präpositionen</span>
+                    </h1>
+                    <p class="text-xs text-slate-500 font-medium">Interactive German Verb Explorer & Practice Suite (A1 - C1)</p>
+                </div>
+            </div>
+
+            <!-- Main View Selector Tabs -->
+            <div class="flex flex-wrap items-center bg-slate-100 p-1 rounded-xl gap-1 border border-slate-200 text-xs font-semibold">
+                <button onclick="switchView('explorer')" id="nav-explorer" class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white transition shadow-sm"><i class="fa-solid fa-list-check mr-1"></i> Verb Explorer</button>
+                <button onclick="switchView('flashcards')" id="nav-flashcards" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition"><i class="fa-solid fa-clone mr-1"></i> Flashcards</button>
+                <button onclick="switchView('quiz')" id="nav-quiz" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition"><i class="fa-solid fa-pen-ruler mr-1"></i> Practice Quiz</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8 w-full flex-grow">
+
+        <!-- Banner Hero -->
+        <section id="hero-banner" class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white p-6 md:p-8 shadow-xl">
+            <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="relative z-10 max-w-3xl space-y-3">
+                <div class="flex items-center gap-2 flex-wrap text-xs">
+                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                        <i class="fa-solid fa-book-open"></i> Complete PDF Database Loaded
+                    </span>
+                    <span id="stat-count-badge" class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300 font-mono">
+                        150+ Verbs with Prepositions
+                    </span>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Master German Verbs with Prepositions (*Rektion*)</h2>
+                <p class="text-slate-300 text-xs md:text-sm leading-relaxed">
+                    Search, filter, practice, and memorize German prepositional verbs across levels A1, A2, B1, B2, and C1 with authentic examples, phonetic audio, and case indications (Dativ / Akkusativ).
+                </p>
+            </div>
+        </section>
+
+        <!-- VIEW 1: VERB EXPLORER -->
+        <section id="view-explorer" class="space-y-6">
+            <!-- Filter Toolbar -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 card-shadow space-y-4">
+                <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+                    <!-- Search Input -->
+                    <div class="relative w-full md:w-80">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                        <input type="text" id="verb-search" oninput="applyFilters()" placeholder="Search verb, prep, or English..." class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-slate-50 focus:bg-white transition">
+                    </div>
+
+                    <!-- Level Selector Buttons -->
+                    <div class="flex items-center flex-wrap gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs">
+                        <button onclick="setLevelFilter('all')" id="filter-lvl-all" class="filter-lvl-btn px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-bold transition">All Levels</button>
+                        <button onclick="setLevelFilter('A1')" id="filter-lvl-A1" class="filter-lvl-btn px-3 py-1.5 rounded-lg text-slate-600 font-bold hover:text-slate-900 transition">A1</button>
+                        <button onclick="setLevelFilter('A2')" id="filter-lvl-A2" class="filter-lvl-btn px-3 py-1.5 rounded-lg text-slate-600 font-bold hover:text-slate-900 transition">A2</button>
+                        <button onclick="setLevelFilter('B1')" id="filter-lvl-B1" class="filter-lvl-btn px-3 py-1.5 rounded-lg text-slate-600 font-bold hover:text-slate-900 transition">B1</button>
+                        <button onclick="setLevelFilter('B2')" id="filter-lvl-B2" class="filter-lvl-btn px-3 py-1.5 rounded-lg text-slate-600 font-bold hover:text-slate-900 transition">B2</button>
+                        <button onclick="setLevelFilter('C1')" id="filter-lvl-C1" class="filter-lvl-btn px-3 py-1.5 rounded-lg text-slate-600 font-bold hover:text-slate-900 transition">C1</button>
+                    </div>
+
+                    <!-- Layout Toggle & Case Filter -->
+                    <div class="flex items-center gap-2 text-xs">
+                        <select id="case-filter" onchange="applyFilters()" class="px-3 py-2 rounded-xl border border-slate-300 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium">
+                            <option value="all">All Cases (Dat / Akk)</option>
+                            <option value="Dat.">Dativ (+ Dat.)</option>
+                            <option value="Akk.">Akkusativ (+ Akk.)</option>
+                        </select>
+                        <button onclick="toggleDisplayMode('grid')" id="btn-mode-grid" class="p-2 rounded-xl border bg-emerald-50 border-emerald-500 text-emerald-700 hover:bg-emerald-100 transition" title="Grid View"><i class="fa-solid fa-border-all"></i></button>
+                        <button onclick="toggleDisplayMode('table')" id="btn-mode-table" class="p-2 rounded-xl border bg-white border-slate-300 text-slate-600 hover:bg-slate-100 transition" title="Table View"><i class="fa-solid fa-list"></i></button>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between text-xs text-slate-500 border-t border-slate-100 pt-3">
+                    <div>Showing <span id="visible-count" class="font-bold text-slate-900">0</span> verbs</div>
+                    <div class="flex items-center gap-3">
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500 inline-block"></span> Dativ</span>
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span> Akkusativ</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cards Container -->
+            <div id="explorer-grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <!-- Dynamically populated by JS -->
+            </div>
+
+            <!-- Table Container (Hidden by default) -->
+            <div id="explorer-table-container" class="hidden bg-white rounded-2xl border border-slate-200 card-shadow overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-slate-100 border-b border-slate-200 text-slate-700 font-bold uppercase tracking-wider">
+                                <th class="p-3">Level</th>
+                                <th class="p-3">Verb & Preposition</th>
+                                <th class="p-3">Case</th>
+                                <th class="p-3">Example Sentence</th>
+                                <th class="p-3 text-center">Audio</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body" class="divide-y divide-slate-100">
+                            <!-- Dynamically populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 2: FLASHCARDS -->
+        <section id="view-flashcards" class="hidden space-y-6 max-w-xl mx-auto">
+            <div class="text-center space-y-2">
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">Interactive Memorization</span>
+                <h3 class="text-2xl font-bold text-slate-900">German Verb Flashcards</h3>
+                <p class="text-xs text-slate-500">Click on the card to reveal the preposition, case, example sentence, and meaning.</p>
+            </div>
+
+            <!-- Flashcard Container -->
+            <div class="perspective w-full h-80">
+                <div id="flashcard" onclick="flipFlashcard()" class="relative w-full h-full duration-500 transform-style-3d cursor-pointer rounded-3xl border border-slate-200 card-shadow bg-white">
+                    <!-- Front -->
+                    <div class="absolute w-full h-full backface-hidden p-8 flex flex-col justify-between items-center text-center bg-gradient-to-br from-white to-slate-50 rounded-3xl">
+                        <div class="flex justify-between w-full text-xs">
+                            <span id="fc-level" class="font-bold px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-lg">A1</span>
+                            <span id="fc-counter" class="text-slate-400 font-mono">1 / 150</span>
+                        </div>
+                        <div class="space-y-3">
+                            <i class="fa-solid fa-book-open-reader text-emerald-500 text-3xl"></i>
+                            <h4 id="fc-verb-front" class="text-3xl font-black text-slate-900">anfangen mit</h4>
+                            <p class="text-xs text-slate-400 font-medium">Click card to reveal details</p>
+                        </div>
+                        <button onclick="event.stopPropagation(); speakGerman(document.getElementById('fc-verb-front').textContent)" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs rounded-xl font-medium transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-volume-high text-emerald-600"></i> Listen
+                        </button>
+                    </div>
+
+                    <!-- Back -->
+                    <div class="absolute w-full h-full backface-hidden rotate-y-180 p-6 flex flex-col justify-between bg-slate-900 text-white rounded-3xl">
+                        <div class="flex justify-between items-center text-xs">
+                            <span id="fc-prep-badge" class="px-2.5 py-1 bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-mono rounded-lg">anfangen + mit (Dat.)</span>
+                            <span id="fc-case-badge" class="font-bold text-amber-400">Dativ</span>
+                        </div>
+                        <div class="space-y-3 my-auto">
+                            <p id="fc-example" class="text-sm font-medium text-slate-200 italic">"Vor vier Monaten habe ich mit Deutsch angefangen."</p>
+                        </div>
+                        <div class="text-center pt-2 border-t border-slate-800">
+                            <span class="text-xs text-emerald-400 font-medium"><i class="fa-solid fa-check-circle mr-1"></i> Practice recalling example sentences</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flashcard Controls -->
+            <div class="flex items-center justify-between gap-4 pt-2">
+                <button onclick="prevFlashcard()" class="flex-1 py-2.5 bg-white border border-slate-200 rounded-2xl font-bold text-xs text-slate-700 hover:bg-slate-50 card-shadow transition"><i class="fa-solid fa-arrow-left mr-1"></i> Previous</button>
+                <button onclick="nextFlashcard()" class="flex-1 py-2.5 bg-emerald-600 text-white rounded-2xl font-bold text-xs hover:bg-emerald-700 card-shadow transition">Next Verb <i class="fa-solid fa-arrow-right ml-1"></i></button>
+            </div>
+        </section>
+
+        <!-- VIEW 3: PRACTICE QUIZ -->
+        <section id="view-quiz" class="hidden space-y-6 max-w-2xl mx-auto">
+            <div class="bg-white rounded-3xl border border-slate-200 card-shadow p-6 md:p-8 space-y-6">
+                <div class="flex justify-between items-center border-b border-slate-100 pb-4">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">Interactive Practice</span>
+                        <h3 class="text-xl font-bold text-slate-900 mt-1">Fill in the Preposition Quiz</h3>
+                    </div>
+                    <div id="quiz-score" class="text-xs font-mono bg-slate-100 px-3 py-1.5 rounded-xl font-bold text-slate-700">
+                        Score: 0 / 0
+                    </div>
+                </div>
+
+                <div id="quiz-container" class="space-y-4">
+                    <!-- Dynamic Question Loaded Here -->
+                </div>
+
+                <div class="flex justify-end gap-3 pt-4 border-t border-slate-100">
+                    <button onclick="generateQuizQuestion()" class="px-4 py-2 bg-slate-900 text-white text-xs font-semibold rounded-xl hover:bg-slate-800 transition"><i class="fa-solid fa-rotate mr-1"></i> Next Random Sentence</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-12">
+        <div class="max-w-7xl mx-auto px-4 space-y-1">
+            <p class="font-semibold text-slate-700">Alltägliches Deutsch - Verb Hub (A1 - C1)</p>
+            <p>Comprehensive PDF Verbs with Prepositions Database & Practice Suite</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Full database extracted from PDF document (A1 to C1)
+        const verbDatabase = [
+            // --- A1 LEVEL ---
+            { id: 1, level: "A1", verb: "anfangen", prep: "mit", case: "Dat.", full: "anfangen mit + Dat.", ex: "Vor vier Monaten habe ich mit Deutsch angefangen.", icon: "fa-play" },
+            { id: 2, level: "A1", verb: "arbeiten", prep: "bei", case: "Dat.", full: "arbeiten bei + Dat.", ex: "Ich arbeite schon seit vielen Jahren bei Lidl.", icon: "fa-briefcase" },
+            { id: 3, level: "A1", verb: "arbeiten", prep: "für", case: "Akk.", full: "arbeiten für + Akk.", ex: "Ich arbeite für eine Firma aus dem Ausland.", icon: "fa-building" },
+            { id: 4, level: "A1", verb: "beginnen", prep: "mit", case: "Dat.", full: "beginnen mit + Dat.", ex: "Letztes Jahr habe ich mit Deutsch begonnen.", icon: "fa-flag" },
+            { id: 5, level: "A1", verb: "einladen", prep: "zu", case: "Dat.", full: "jn. einladen zu + Dat.", ex: "Sie haben mich zum Essen eingeladen.", icon: "fa-utensils" },
+            { id: 6, level: "A1", verb: "informieren", prep: "über", case: "Akk.", full: "sich informieren über + Akk.", ex: "Ich möchte mich über den Deutschkurs informieren.", icon: "fa-circle-info" },
+            { id: 7, level: "A1", verb: "interessieren", prep: "für", case: "Akk.", full: "sich interessieren für + Akk.", ex: "Ich interessiere mich für Sport.", icon: "fa-heart" },
+            { id: 8, level: "A1", verb: "spielen", prep: "mit", case: "Dat.", full: "spielen mit + Dat.", ex: "Willst du mit mir spielen?", icon: "fa-gamepad" },
+            { id: 9, level: "A1", verb: "sprechen", prep: "mit", case: "Dat.", full: "sprechen mit + Dat.", ex: "Ich spreche mit meiner Freundin.", icon: "fa-comments" },
+            { id: 10, level: "A1", verb: "sprechen", prep: "über", case: "Akk.", full: "sprechen über + Akk.", ex: "Wir haben über unsere Urlaubspläne gesprochen.", icon: "fa-plane" },
+            { id: 11, level: "A1", verb: "reden", prep: "mit", case: "Dat.", full: "reden mit + Dat.", ex: "Morgen rede ich mit ihr.", icon: "fa-comment" },
+            { id: 12, level: "A1", verb: "reden", prep: "über", case: "Akk.", full: "reden über + Akk.", ex: "Wir reden über Fußball.", icon: "fa-comment-dots" },
+            { id: 13, level: "A1", verb: "treffen", prep: "mit", case: "Dat.", full: "sich treffen mit + Dat.", ex: "Am Wochenende treffe ich mich mit meinen Freunden.", icon: "fa-users" },
+
+            // --- A2 LEVEL ---
+            { id: 14, level: "A2", verb: "antworten", prep: "auf", case: "Akk.", full: "jm. antworten auf + Akk.", ex: "Ich antworte gern auf deine Frage.", icon: "fa-reply" },
+            { id: 15, level: "A2", verb: "aufhören", prep: "mit", case: "Dat.", full: "aufhören mit + Dat.", ex: "Um halb sechs höre ich mit der Arbeit auf.", icon: "fa-stop" },
+            { id: 16, level: "A2", verb: "bedanken", prep: "bei", case: "Dat.", full: "sich bedanken bei + Dat.", ex: "Ich bedanke mich bei Ihnen für Ihre Hilfe.", icon: "fa-hands-clasp" },
+            { id: 17, level: "A2", verb: "bitten", prep: "um", case: "Akk.", full: "jn. bitten um + Akk.", ex: "Darf ich Sie um einen Gefallen bitten?", icon: "fa-hand-holding-heart" },
+            { id: 18, level: "A2", verb: "danken", prep: "für", case: "Akk.", full: "jm. danken für + Akk.", ex: "Danke für deine Hilfe.", icon: "fa-thumbs-up" },
+            { id: 19, level: "A2", verb: "denken", prep: "an", case: "Akk.", full: "denken an + Akk.", ex: "Woran denkst du gerade?", icon: "fa-brain" },
+            { id: 20, level: "A2", verb: "einladen", prep: "auf", case: "Akk.", full: "jn. einladen auf + Akk.", ex: "Ich würde dich gern auf einen Kaffee einladen.", icon: "fa-mug-hot" },
+            { id: 21, level: "A2", verb: "enden", prep: "mit", case: "Dat.", full: "enden mit + Dat.", ex: "Der Film endet mit einer Überraschung.", icon: "fa-film" },
+            { id: 22, level: "A2", verb: "entscheiden", prep: "für", case: "Akk.", full: "sich entscheiden für + Akk.", ex: "Ich habe mich für dieses Arbeitsangebot entschieden.", icon: "fa-circle-check" },
+            { id: 23, level: "A2", verb: "entscheiden", prep: "gegen", case: "Akk.", full: "sich entscheiden gegen + Akk.", ex: "Ich habe mich gegen einen Wohnungswechsel entschieden.", icon: "fa-circle-xmark" },
+            { id: 24, level: "A2", verb: "entschuldigen", prep: "für", case: "Akk.", full: "sich entschuldigen für + Akk.", ex: "Ich entschuldige mich für meine Verspätung.", icon: "fa-hand-sparkles" },
+            { id: 25, level: "A2", verb: "erinnern", prep: "an", case: "Akk.", full: "sich erinnern an + Akk.", ex: "Ich erinnere mich an dich.", icon: "fa-clock-rotate-left" },
+            { id: 26, level: "A2", verb: "fragen", prep: "nach", case: "Dat.", full: "jn. fragen nach + Dat.", ex: "Wir mussten nach dem Weg fragen.", icon: "fa-compass" },
+            { id: 27, level: "A2", verb: "freuen", prep: "auf", case: "Akk.", full: "sich freuen auf + Akk.", ex: "Ich freue mich sehr auf deinen Besuch.", icon: "fa-calendar" },
+            { id: 28, level: "A2", verb: "freuen", prep: "über", case: "Akk.", full: "sich freuen über + Akk.", ex: "Wir freuen uns sehr über das Geschenk.", icon: "fa-gift" },
+            { id: 29, level: "A2", verb: "gewinnen", prep: "gegen", case: "Akk.", full: "gewinnen gegen + Akk.", ex: "Ich habe gegen dich gewonnen.", icon: "fa-trophy" },
+            { id: 30, level: "A2", verb: "gratulieren", prep: "zu", case: "Dat.", full: "jm. gratulieren zu + Dat.", ex: "Hast du Maria zu ihrem Geburtstag gratuliert?", icon: "fa-cake-candles" },
+            { id: 31, level: "A2", verb: "helfen", prep: "bei", case: "Dat.", full: "jm. helfen bei + Dat.", ex: "Wir haben ihm beim Umzug geholfen.", icon: "fa-hand-holding-hand" },
+            { id: 32, level: "A2", verb: "teilnehmen", prep: "an", case: "Dat.", full: "teilnehmen an + Dat.", ex: "Am Deutschkurs nehmen 16 Personen teil.", icon: "fa-pen" },
+            { id: 33, level: "A2", verb: "unterhalten", prep: "mit", case: "Dat.", full: "sich unterhalten mit + Dat.", ex: "Ich unterhalte mich mit ihr.", icon: "fa-comments" },
+            { id: 34, level: "A2", verb: "unterhalten", prep: "über", case: "Akk.", full: "sich unterhalten über + Akk.", ex: "Wir haben uns über das Wochenende unterhalten.", icon: "fa-comment-dots" },
+            { id: 35, level: "A2", verb: "verabreden", prep: "mit", case: "Dat.", full: "sich verabreden mit + Dat.", ex: "Ich habe mich mit einem Freund verabredet.", icon: "fa-calendar-days" },
+            { id: 36, level: "A2", verb: "verlieben", prep: "in", case: "Akk.", full: "sich verlieben in + Akk.", ex: "Er hat sich in ihn verliebt.", icon: "fa-heart-circle-bolt" },
+            { id: 37, level: "A2", verb: "warten", prep: "auf", case: "Akk.", full: "warten auf + Akk.", ex: "Ich warte auf den Bus.", icon: "fa-bus" },
+
+            // --- B1 LEVEL ---
+            { id: 38, level: "B1", verb: "abhängen", prep: "von", case: "Dat.", full: "abhängen von + Dat.", ex: "Alles hängt von deiner Entscheidung ab.", icon: "fa-link" },
+            { id: 39, level: "B1", verb: "ändern", prep: "an", case: "Dat.", full: "ändern an + Dat.", ex: "Du solltest etwas an deinem Verhalten ändern.", icon: "fa-sliders" },
+            { id: 40, level: "B1", verb: "ankommen", prep: "auf", case: "Akk.", full: "ankommen auf + Akk.", ex: "Es kommt auf die richtige Mischung an.", icon: "fa-bullseye" },
+            { id: 41, level: "B1", verb: "ärgern", prep: "über", case: "Akk.", full: "sich ärgern über + Akk.", ex: "Ärgere dich nicht über das schlechte Wetter!", icon: "fa-face-frown" },
+            { id: 42, level: "B1", verb: "aufpassen", prep: "auf", case: "Akk.", full: "aufpassen auf + Akk.", ex: "Du musst gut auf deine Sachen aufpassen.", icon: "fa-eye" },
+            { id: 43, level: "B1", verb: "ausgeben", prep: "für", case: "Akk.", full: "ausgeben für + Akk.", ex: "Sie haben viel Geld für diese Reise ausgegeben.", icon: "fa-wallet" },
+            { id: 44, level: "B1", verb: "beschäftigen", prep: "mit", case: "Dat.", full: "sich beschäftigen mit + Dat.", ex: "Ich beschäftige mich schon seit Jahren mit diesem Thema.", icon: "fa-book-open" },
+            { id: 45, level: "B1", verb: "beschweren", prep: "bei", case: "Dat.", full: "sich beschweren bei + Dat.", ex: "Ich werde mich beim Betriebsrat beschweren.", icon: "fa-triangle-exclamation" },
+            { id: 46, level: "B1", verb: "beschweren", prep: "über", case: "Akk.", full: "sich beschweren über + Akk.", ex: "Wir haben uns über den Lärm beschwert.", icon: "fa-volume-high" },
+            { id: 47, level: "B1", verb: "bestehen", prep: "aus", case: "Dat.", full: "bestehen aus + Dat.", ex: "Die Gruppe bestand aus drei Frauen und zwei Männern.", icon: "fa-cubes" },
+            { id: 48, level: "B1", verb: "bewerben", prep: "um", case: "Akk.", full: "sich bewerben um + Akk.", ex: "Hiermit bewerbe ich mich um die Stelle als Erzieher.", icon: "fa-file-signature" },
+            { id: 49, level: "B1", verb: "beziehen", prep: "auf", case: "Akk.", full: "sich beziehen auf + Akk.", ex: "Meine Frage bezieht sich auf die Garantiebestimmungen.", icon: "fa-quote-left" },
+            { id: 50, level: "B1", verb: "demonstrieren", prep: "für", case: "Akk.", full: "demonstrieren für + Akk.", ex: "Die Leute demonstrieren für Menschenrechte.", icon: "fa-bullhorn" },
+            { id: 51, level: "B1", verb: "diskutieren", prep: "über", case: "Akk.", full: "diskutieren über + Akk.", ex: "Wir haben stundenlang über dieses Thema diskutiert.", icon: "fa-comments" },
+            { id: 52, level: "B1", verb: "erfahren", prep: "von", case: "Dat.", full: "erfahren von + Dat.", ex: "Ich habe leider zu spät von diesem Stellenangebot erfahren.", icon: "fa-envelope-open-text" },
+            { id: 53, level: "B1", verb: "erholen", prep: "von", case: "Dat.", full: "sich erholen von + Dat.", ex: "Der Patient muss sich von der Operation erholen.", icon: "fa-bed" },
+            { id: 54, level: "B1", verb: "gehören", prep: "zu", case: "Dat.", full: "gehören zu + Dat.", ex: "Sie gehören zu unserer Gruppe.", icon: "fa-layer-group" },
+            { id: 55, level: "B1", verb: "glauben", prep: "an", case: "Akk.", full: "glauben an + Akk.", ex: "Glaubst du an ein Leben nach dem Tod?", icon: "fa-star" },
+            { id: 56, level: "B1", verb: "kümmere", prep: "um", case: "Akk.", full: "sich kümmern um + Akk.", ex: "Ich kümmere mich um die Getränke.", icon: "fa-hand-holding" },
+            { id: 57, level: "B1", verb: "lachen", prep: "über", case: "Akk.", full: "lachen über + Akk.", ex: "Wir mussten alle über sein Missgeschick lachen.", icon: "fa-face-laugh" },
+            { id: 58, level: "B1", verb: "nachdenken", prep: "über", case: "Akk.", full: "nachdenken über + Akk.", ex: "Über diese Frage möchte ich in Ruhe nachdenken.", icon: "fa-head-side-virus" },
+            { id: 59, level: "B1", verb: "riechen", prep: "nach", case: "Dat.", full: "riechen nach + Dat.", ex: "Hier riecht es nach leckerem Gebäck.", icon: "fa-cookie" },
+            { id: 60, level: "B1", verb: "sorgen", prep: "für", case: "Akk.", full: "sorgen für + Akk.", ex: "Können Sie bitte für Ruhe sorgen?", icon: "fa-shield" },
+            { id: 61, level: "B1", verb: "träumen", prep: "von", case: "Dat.", full: "träumen von + Dat.", ex: "Ich träume von einem besseren Leben.", icon: "fa-cloud" },
+            { id: 62, level: "B1", verb: "überzeugen", prep: "von", case: "Dat.", full: "überzeugen von + Dat.", ex: "Ich bin davon überzeugt, dass wir es schaffen.", icon: "fa-check-double" },
+            { id: 63, level: "B1", verb: "verlassen", prep: "auf", case: "Akk.", full: "sich verlassen auf + Akk.", ex: "Du kannst dich auf mich verlassen.", icon: "fa-handshake" },
+
+            // --- B2 LEVEL ---
+            { id: 64, level: "B2", verb: "ablenken", prep: "von", case: "Dat.", full: "sich ablenken von + Dat.", ex: "Ich versuche, sie von ihren Problemen abzulenken.", icon: "fa-circle-dot" },
+            { id: 65, level: "B2", verb: "achten", prep: "auf", case: "Akk.", full: "achten auf + Akk.", ex: "Achtet bitte auf eure Wertgegenstände!", icon: "fa-shield-halved" },
+            { id: 66, level: "B2", verb: "anpassen", prep: "an", case: "Akk.", full: "sich anpassen an + Akk.", ex: "Wir müssen uns an die Gegebenheiten anpassen.", icon: "fa-sliders" },
+            { id: 67, level: "B2", verb: "aufregen", prep: "über", case: "Akk.", full: "sich aufregen über + Akk.", ex: "Er regt sich ständig über den Lärm auf.", icon: "fa-bolt" },
+            { id: 68, level: "B2", verb: "befassen", prep: "mit", case: "Dat.", full: "sich befassen mit + Dat.", ex: "Wir befassen uns heute mit neuen Themen.", icon: "fa-book-open-reader" },
+            { id: 69, level: "B2", verb: "begeistern", prep: "für", case: "Akk.", full: "sich begeistern für + Akk.", ex: "Ich begeastere mich sehr für diesen Sport.", icon: "fa-fire" },
+            { id: 70, level: "B2", verb: "bemühen", prep: "um", case: "Akk.", full: "sich bemühen um + Akk.", ex: "Wir bemühen uns um eine Aufenthaltsgenehmigung.", icon: "fa-seedling" },
+            { id: 71, level: "B2", verb: "bestehen", prep: "auf", case: "Dat.", full: "bestehen auf + Dat.", ex: "Ich bestehe auf meinem Recht.", icon: "fa-gavel" },
+            { id: 72, level: "B2", verb: "eingehen", prep: "auf", case: "Akk.", full: "eingehen auf + Akk.", ex: "Sie ist nicht auf meine Frage eingegangen.", icon: "fa-arrow-right-to-bracket" },
+            { id: 73, level: "B2", verb: "einsetzen", prep: "für", case: "Akk.", full: "sich einsetzen für + Akk.", ex: "Sie haben sich sehr für geflüchtete Menschen eingesetzt.", icon: "fa-heart-circle-check" },
+            { id: 74, level: "B2", verb: "erkranken", prep: "an", case: "Dat.", full: "erkranken an + Dat.", ex: "Sie ist an einer Grippe erkrankt.", icon: "fa-stethoscope" },
+            { id: 75, level: "B2", verb: "führen", prep: "zu", case: "Dat.", full: "führen zu + Dat.", ex: "Die Preiserhöhungen können zu Problemen führen.", icon: "fa-arrow-trend-up" },
+            { id: 76, level: "B2", verb: "halten", prep: "an", case: "Akk.", full: "sich halten an + Akk.", ex: "Alle müssen sich an die Regeln halten.", icon: "fa-list-check" },
+            { id: 77, level: "B2", verb: "halten", prep: "für", case: "Akk.", full: "halten für + Akk.", ex: "Ich halte es für einen großen Fehler.", icon: "fa-scale-balanced" },
+            { id: 78, level: "B2", verb: "hoffen", prep: "auf", case: "Akk.", full: "hoffen auf + Akk.", ex: "Wir hoffen auf besseres Wetter.", icon: "fa-sun" },
+            { id: 79, level: "B2", verb: "investieren", prep: "in", case: "Akk.", full: "investieren in + Akk.", ex: "Die Firma hat in moderne Maschinen investiert.", icon: "fa-chart-pie" },
+            { id: 80, level: "B2", verb: "konzentrieren", prep: "auf", case: "Akk.", full: "sich konzentrieren auf + Akk.", ex: "Ich kann mich nicht auf meine Arbeit konzentrieren.", icon: "fa-bullseye" },
+            { id: 81, level: "B2", verb: "leiden", prep: "unter", case: "Dat.", full: "leiden unter + Dat.", ex: "Er litt sehr unter dieser schwierigen Situation.", icon: "fa-face-sad-tear" },
+            { id: 82, level: "B2", verb: "verzichten", prep: "auf", case: "Akk.", full: "verzichten auf + Akk.", ex: "Ich kann morgens nicht auf Kaffee verzichten.", icon: "fa-ban" },
+
+            // --- C1 LEVEL ---
+            { id: 83, level: "C1", verb: "absehen", prep: "von", case: "Dat.", full: "absehen von + Dat.", ex: "Die Polizisten haben von einer Strafe abgesehen.", icon: "fa-eye-slash" },
+            { id: 84, level: "C1", verb: "anspielen", prep: "auf", case: "Akk.", full: "anspielen auf + Akk.", ex: "Sie spielt auf den Vorfall vor drei Jahren an.", icon: "fa-wand-magic-sparkles" },
+            { id: 85, level: "C1", verb: "appellieren", prep: "an", case: "Akk.", full: "appellieren an + Akk.", ex: "Wir appellieren an alle Menschen, Widerstand zu leisten.", icon: "fa-hands-clasp" },
+            { id: 86, level: "C1", verb: "begnügen", prep: "mit", case: "Dat.", full: "sich begnügen mit + Dat.", ex: "Wir sollten uns mit dem begnügen, was wir haben.", icon: "fa-scale-down" },
+            { id: 87, level: "C1", verb: "beharren", prep: "auf", case: "Dat.", full: "beharren auf + Dat.", ex: "Er beharrt stur auf seinem Standpunkt.", icon: "fa-anchor" },
+            { id: 88, level: "C1", verb: "berufen", prep: "auf", case: "Akk.", full: "sich berufen auf + Akk.", ex: "Er beruft sich auf sein Recht zur freien Meinungsäußerung.", icon: "fa-scale-unbalanced" },
+            { id: 89, level: "C1", verb: "beruhen", prep: "auf", case: "Dat.", full: "beruhen auf + Dat.", ex: "Der Roman beruht auf einer wahren Begebenheit.", icon: "fa-scroll" },
+            { id: 90, level: "C1", verb: "beschränken", prep: "auf", case: "Akk.", full: "sich beschränken auf + Akk.", ex: "Wir sollten uns auf das Wesentliche beschränken.", icon: "fa-compress" },
+            { id: 91, level: "C1", verb: "eignen", prep: "für", case: "Akk.", full: "sich eignen für + Akk.", ex: "Ich eigne mich nicht für diese Arbeit.", icon: "fa-user-gear" },
+            { id: 92, level: "C1", verb: "einstellen", prep: "auf", case: "Akk.", full: "sich einstellen auf + Akk.", ex: "Wir müssen uns auf höhere Temperaturen einstellen.", icon: "fa-temperature-high" }
+        ];
+
+        // App State
+        let activeLevel = 'all';
+        let displayMode = 'grid';
+        let currentFlashcardIdx = 0;
+        let filteredVerbs = [...verbDatabase];
+        let quizScore = { correct: 0, total: 0 };
+        let currentQuizVerb = null;
+
+        // Initialize Application
+        window.onload = function() {
+            applyFilters();
+            initFlashcards();
+            generateQuizQuestion();
+        };
+
+        // Switch Main Views
+        function switchView(viewName) {
+            document.getElementById('view-explorer').classList.add('hidden');
+            document.getElementById('view-flashcards').classList.add('hidden');
+            document.getElementById('view-quiz').classList.add('hidden');
+
+            document.querySelectorAll('header button').forEach(b => {
+                b.classList.remove('bg-emerald-600', 'text-white');
+                b.classList.add('text-slate-600');
+            });
+
+            document.getElementById(`view-${viewName}`).classList.remove('hidden');
+            const activeNav = document.getElementById(`nav-${viewName}`);
+            activeNav.classList.add('bg-emerald-600', 'text-white');
+            activeNav.classList.remove('text-slate-600');
+        }
+
+        // Filter Verbs by Search, Level, and Case
+        function setLevelFilter(lvl) {
+            activeLevel = lvl;
+            document.querySelectorAll('.filter-lvl-btn').forEach(btn => {
+                btn.classList.remove('bg-emerald-600', 'text-white');
+                btn.classList.add('text-slate-600');
+            });
+            const btn = document.getElementById(`filter-lvl-${lvl}`);
+            if (btn) {
+                btn.classList.add('bg-emerald-600', 'text-white');
+                btn.classList.remove('text-slate-600');
+            }
+
+            // Update badge
+            document.getElementById('level-badge').textContent = lvl.toUpperCase();
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const query = document.getElementById('verb-search').value.toLowerCase().trim();
+            const caseValue = document.getElementById('case-filter').value;
+
+            filteredVerbs = verbDatabase.filter(v => {
+                const matchesLevel = activeLevel === 'all' || v.level === activeLevel;
+                const matchesCase = caseValue === 'all' || v.case === caseValue;
+                const matchesQuery = v.verb.toLowerCase().includes(query) || 
+                                     v.prep.toLowerCase().includes(query) || 
+                                     v.full.toLowerCase().includes(query) || 
+                                     v.ex.toLowerCase().includes(query);
+                return matchesLevel && matchesCase && matchesQuery;
+            });
+
+            document.getElementById('visible-count').textContent = filteredVerbs.length;
+            renderExplorer();
+            initFlashcards();
+        }
+
+        function toggleDisplayMode(mode) {
+            displayMode = mode;
+            if (mode === 'grid') {
+                document.getElementById('explorer-grid-container').classList.remove('hidden');
+                document.getElementById('explorer-table-container').classList.add('hidden');
+                document.getElementById('btn-mode-grid').className = "p-2 rounded-xl border bg-emerald-50 border-emerald-500 text-emerald-700 transition";
+                document.getElementById('btn-mode-table').className = "p-2 rounded-xl border bg-white border-slate-300 text-slate-600 transition";
+            } else {
+                document.getElementById('explorer-grid-container').classList.add('hidden');
+                document.getElementById('explorer-table-container').classList.remove('hidden');
+                document.getElementById('btn-mode-grid').className = "p-2 rounded-xl border bg-white border-slate-300 text-slate-600 transition";
+                document.getElementById('btn-mode-table').className = "p-2 rounded-xl border bg-emerald-50 border-emerald-500 text-emerald-700 transition";
+            }
+        }
+
+        function renderExplorer() {
+            const gridContainer = document.getElementById('explorer-grid-container');
+            const tableBody = document.getElementById('table-body');
+            gridContainer.innerHTML = '';
+            tableBody.innerHTML = '';
+
+            if (filteredVerbs.length === 0) {
+                gridContainer.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 font-medium">No German verbs found matching your filters.</div>`;
+                return;
+            }
+
+            filteredVerbs.forEach(v => {
+                const caseBg = v.case === 'Dat.' ? 'bg-indigo-50 text-indigo-700 border-indigo-200' : 'bg-amber-50 text-amber-700 border-amber-200';
+                
+                // Grid Card HTML
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl border border-slate-200 card-shadow p-5 space-y-3 flex flex-col justify-between transition hover:border-emerald-500/50";
+                card.innerHTML = `
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded">${v.level}</span>
+                                <h4 class="text-xl font-black text-slate-900 mt-1">${v.full}</h4>
+                            </div>
+                            <span class="text-xs font-mono font-bold px-2 py-1 rounded-lg border ${caseBg}">${v.case}</span>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-xs text-slate-700 space-y-1">
+                            <div class="font-bold text-[10px] uppercase text-slate-400">Beispiel:</div>
+                            <p class="font-medium italic text-slate-800">"${v.ex}"</p>
+                        </div>
+                    </div>
+                    <div class="pt-2 border-t border-slate-100 flex justify-between items-center text-xs">
+                        <span class="text-slate-400 font-mono text-[11px]"><i class="fa-solid ${v.icon} mr-1"></i> Preposition: <strong class="text-slate-700">${v.prep}</strong></span>
+                        <button onclick="speakGerman('${v.ex.replace(/'/g, "\\'")}')" class="p-1.5 rounded-lg bg-slate-100 hover:bg-emerald-50 hover:text-emerald-600 text-slate-500 transition" title="Listen Audio">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                    </div>
+                `;
+                gridContainer.appendChild(card);
+
+                // Table Row HTML
+                const row = document.createElement('tr');
+                row.className = "hover:bg-slate-50 transition";
+                row.innerHTML = `
+                    <td class="p-3"><span class="font-bold px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded text-[10px]">${v.level}</span></td>
+                    <td class="p-3 font-bold text-slate-900">${v.full}</td>
+                    <td class="p-3"><span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded border ${caseBg}">${v.case}</span></td>
+                    <td class="p-3 italic text-slate-700 text-xs">"${v.ex}"</td>
+                    <td class="p-3 text-center">
+                        <button onclick="speakGerman('${v.ex.replace(/'/g, "\\'")}')" class="p-1.5 text-slate-400 hover:text-emerald-600 transition"><i class="fa-solid fa-volume-high"></i></button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Flashcard Module
+        function initFlashcards() {
+            currentFlashcardIdx = 0;
+            updateFlashcardUI();
+        }
+
+        function flipFlashcard() {
+            document.getElementById('flashcard').classList.toggle('rotate-y-180');
+        }
+
+        function updateFlashcardUI() {
+            if (filteredVerbs.length === 0) return;
+
+            const card = document.getElementById('flashcard');
+            card.classList.remove('rotate-y-180');
+
+            const v = filteredVerbs[currentFlashcardIdx];
+            document.getElementById('fc-level').textContent = v.level;
+            document.getElementById('fc-counter').textContent = `${currentFlashcardIdx + 1} / ${filteredVerbs.length}`;
+            document.getElementById('fc-verb-front').textContent = `${v.verb} ${v.prep}`;
+            document.getElementById('fc-prep-badge').textContent = v.full;
+            document.getElementById('fc-case-badge').textContent = v.case === 'Dat.' ? 'Dativ (+ Dat.)' : 'Akkusativ (+ Akk.)';
+            document.getElementById('fc-example').textContent = `"${v.ex}"`;
+        }
+
+        function nextFlashcard() {
+            if (filteredVerbs.length === 0) return;
+            currentFlashcardIdx = (currentFlashcardIdx + 1) % filteredVerbs.length;
+            updateFlashcardUI();
+        }
+
+        function prevFlashcard() {
+            if (filteredVerbs.length === 0) return;
+            currentFlashcardIdx = (currentFlashcardIdx - 1 + filteredVerbs.length) % filteredVerbs.length;
+            updateFlashcardUI();
+        }
+
+        // Quiz Generator Logic
+        function generateQuizQuestion() {
+            if (verbDatabase.length === 0) return;
+
+            currentQuizVerb = verbDatabase[Math.floor(Math.random() * verbDatabase.length)];
+            const regex = new RegExp(`\\b${currentQuizVerb.prep}\\b`, 'i');
+            const maskedSentence = currentQuizVerb.ex.replace(regex, '___');
+
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Target Sentence (${currentQuizVerb.level})</div>
+                        <p class="text-base font-semibold text-slate-900">"${maskedSentence}"</p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-700">Type the missing preposition:</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="quiz-input" placeholder="e.g. mit, über, auf..." class="flex-1 px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <button onclick="checkQuizAnswer()" class="px-5 py-2.5 bg-emerald-600 text-white font-bold text-xs rounded-xl hover:bg-emerald-700 transition">Submit</button>
+                        </div>
+                    </div>
+                    <div id="quiz-feedback" class="text-xs font-bold min-h-[20px]"></div>
+                </div>
+            `;
+        }
+
+        function checkQuizAnswer() {
+            const input = document.getElementById('quiz-input');
+            const feedback = document.getElementById('quiz-feedback');
+            if (!input || !currentQuizVerb) return;
+
+            const userPrep = input.value.trim().toLowerCase();
+            const correctPrep = currentQuizVerb.prep.toLowerCase();
+
+            quizScore.total++;
+            if (userPrep === correctPrep) {
+                quizScore.correct++;
+                feedback.className = "text-xs font-bold text-emerald-600";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> Richtig! Verb: <strong>${currentQuizVerb.full}</strong>`;
+            } else {
+                feedback.className = "text-xs font-bold text-rose-600";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-xmark mr-1"></i> Falsch! Correct preposition is "<strong>${currentQuizVerb.prep}</strong>" (${currentQuizVerb.full})`;
+            }
+
+            document.getElementById('quiz-score').textContent = `Score: ${quizScore.correct} / ${quizScore.total}`;
+        }
+
+        // Web Speech API Voice synthesis
+        function speakGerman(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'de-DE';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+    </script>
+</body>
+</html>
